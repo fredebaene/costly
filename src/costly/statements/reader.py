@@ -8,7 +8,17 @@ import pandas as pd
 
 @runtime_checkable
 class IStatementReader(Protocol):
-    def read_csv(self, path: Union[str, Path]) -> Tuple[dict, pd.DataFrame]:
+    """
+    An interface for a statement reader. The `.read_csv()` method must return 
+    a dict holding the required items:
+
+    - account: bank account of the account holder
+    - name: name of the account holder
+    - start_date: start date of the account statement
+    - end_date: end date of the account statement
+    - data: the clean data.
+    """
+    def read_csv(self, path: Union[str, Path]) -> dict:
         """
         This method reads and parses the data from a comma-separated values 
         file (csv file) that contains the raw data.
@@ -17,9 +27,7 @@ class IStatementReader(Protocol):
             path (Union[str, Path]): The path to the csv file.
 
         Returns:
-            Tuple[dict, pd.DataFrame]: A tuple; the first element is a 
-                dictionary holding metadata, the second element is a data 
-                frame with clean data.
+            dict: A dictionary containing the required items.
         """
         ...
     
@@ -88,7 +96,7 @@ class IStatementReader(Protocol):
 
 
 class KBCStatementReader:    
-    def read_csv(self, path: Union[str, Path]) -> Tuple[dict, pd.DataFrame]:
+    def read_csv(self, path: Union[str, Path]) -> dict:
         """
         This method reads and parses the data from a comma-separated values 
         file (csv file) that contains the raw data.
@@ -97,19 +105,17 @@ class KBCStatementReader:
             path (Union[str, Path]): The path to the csv file.
 
         Returns:
-            Tuple[dict, pd.DataFrame]: A tuple; the first element is a 
-                dictionary holding metadata, the second element is a data 
-                frame with clean data.
+            dict: A dictionary containing the required items.
         """
         path = Path(path) if isinstance(path, str) else path
         df = pd.read_csv(path, sep=";")
-        metadata = {}
-        metadata["account"] = self._parse_account(df)
-        metadata["name"] = self._parse_name(df)
-        metadata["start_date"] = self._parse_start_date(df)
-        metadata["end_date"] = self._parse_end_date(df)
-        data = self._clean_raw_data(df)
-        return (metadata, data)
+        res = {}
+        res["account"] = self._parse_account(df)
+        res["name"] = self._parse_name(df)
+        res["start_date"] = self._parse_start_date(df)
+        res["end_date"] = self._parse_end_date(df)
+        res["dict"] = self._clean_raw_data(df)
+        return res
     
     def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
         """

@@ -1,100 +1,35 @@
 from abc import abstractmethod
+from costly.statements.reader import IStatementReader
 from datetime import date
 from pathlib import Path
-from typing import Protocol, Union
-from typing import runtime_checkable
+from typing import Optional, Union
 import pandas as pd
 
 
-@runtime_checkable
-class IAccountStatement(Protocol):
-    account: str
-    name: str
-    start_date: date
-    end_date: date
-    data: pd.DataFrame
+class AccountStatement:
+    def __init__(
+            self,
+            account: str,
+            name: str,
+            start_date: date,
+            end_date: date,
+            data: pd.DataFrame) -> None:
+        self.account = account
+        self.name = name
+        self.start_date = start_date
+        self.end_date = end_date
+        self.data = data
 
     @classmethod
-    @abstractmethod
-    def from_csv(cls, path: Union[str, Path]):
-        """
-        This constructor initializes an object of class `IAccountStatement` 
-        from a comma-separated values (csv) file.
-
-        Args:
-            path (Union[str, Path]): The file path to the csv file.
-        """
-        ...
-
-    @staticmethod
-    @abstractmethod
-    def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
-        """
-        This method cleans the raw data. This comprises renaming the fields 
-        and dropping redundant fields.
-
-        Args:
-            df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            pd.DataFrame: A data frame with clean data.
-        """
-        ...
-
-    @staticmethod
-    @abstractmethod
-    def _parse_account(df: pd.DataFrame) -> str:
-        """
-        This method parses the account number of the account holder.
-
-        Args:
-            df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            str: The account number of the account holder.
-        """
-        ...
-
-    @staticmethod
-    @abstractmethod
-    def _parse_name(df: pd.DataFrame) -> str:
-        """
-        This method parses the name of the account holder.
-
-        Args:
-            df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            str: The name of the account holder.
-        """
-        ...
-
-    @staticmethod
-    @abstractmethod
-    def _parse_start_date(df: pd.DataFrame) -> date:
-        """
-        This method parses the start date (earliest date) of the account 
-        statement.
-
-        Args:
-            df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            date: The start date on the account statement.
-        """
-        ...
-
-    @staticmethod
-    @abstractmethod
-    def _parse_end_date(df: pd.DataFrame) -> date:
-        """
-        This method parses the end date (most recent date) of the account 
-        statement.
-
-        Args:
-            df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            date: The end date on the account statement.
-        """
-        ...
+    def from_csv(
+            cls,
+            path: Union[str, Path],
+            statement_reader: IStatementReader):
+        data = statement_reader.from_csv(path)
+        return cls(
+            account=data["account"],
+            name=data["name"],
+            start_date=data["start_date"],
+            end_date=data["end_date"],
+            data=data["data"]
+        )

@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from datetime import date
 from pathlib import Path
-from typing import Protocol, TypeVar, Union
+from typing import Protocol, Union
 from typing import runtime_checkable
 import pandas as pd
 

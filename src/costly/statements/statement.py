@@ -3,6 +3,7 @@ from datetime import date
 from pathlib import Path
 from typing import Protocol, TypeVar, Union
 from typing import runtime_checkable
+import pandas as pd
 
 
 @runtime_checkable
@@ -19,20 +20,20 @@ class IAccountStatement(Protocol):
 
     @staticmethod
     @abstractmethod
-    def _parse_account() -> str:
+    def _parse_account(df: pd.DataFrame) -> str:
         ...
 
     @staticmethod
     @abstractmethod
-    def _parse_name() -> str:
+    def _parse_name(df: pd.DataFrame) -> str:
         ...
 
     @staticmethod
     @abstractmethod
-    def _parse_start_date() -> date:
+    def _parse_start_date(df: pd.DataFrame) -> date:
         ...
 
     @staticmethod
     @abstractmethod
-    def _parse_end_date() -> date:
+    def _parse_end_date(df: pd.DataFrame) -> date:
         ...

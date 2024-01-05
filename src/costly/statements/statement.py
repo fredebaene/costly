@@ -28,6 +28,21 @@ class IAccountStatement(Protocol):
 
     @staticmethod
     @abstractmethod
+    def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        This method cleans the raw data. This comprises renaming the fields 
+        and dropping redundant fields.
+
+        Args:
+            df (pd.DataFrame): A data frame holding the raw data.
+
+        Returns:
+            pd.DataFrame: A data frame with clean data.
+        """
+        ...
+
+    @staticmethod
+    @abstractmethod
     def _parse_account(df: pd.DataFrame) -> str:
         """
         This method parses the account number of the account holder.

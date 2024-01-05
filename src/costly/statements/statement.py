@@ -21,7 +21,7 @@ class IAccountStatement(Protocol):
         from a comma-separated values (csv) file.
 
         Args:
-            path (Union[str, Path]): file path to the csv file.
+            path (Union[str, Path]): The file path to the csv file.
         """
         ...
 
@@ -32,10 +32,10 @@ class IAccountStatement(Protocol):
         This method parses the account number of the account holder.
 
         Args:
-            df (pd.DataFrame): a data frame holding the raw data.
+            df (pd.DataFrame): A data frame holding the raw data.
 
         Returns:
-            str: account number.
+            str: The account number of the account holder.
         """
         ...
 
@@ -46,10 +46,10 @@ class IAccountStatement(Protocol):
         This method parses the name of the account holder.
 
         Args:
-            df (pd.DataFrame): a data frame holding the raw data.
+            df (pd.DataFrame): A data frame holding the raw data.
 
         Returns:
-            str: account holder name.
+            str: The name of the account holder.
         """
         ...
 
@@ -61,10 +61,10 @@ class IAccountStatement(Protocol):
         statement.
 
         Args:
-            df (pd.DataFrame): a data frame holding the raw data.
+            df (pd.DataFrame): A data frame holding the raw data.
 
         Returns:
-            date: start date.
+            date: The start date on the account statement.
         """
         ...
 
@@ -76,9 +76,9 @@ class IAccountStatement(Protocol):
         statement.
 
         Args:
-            df (pd.DataFrame): a data frame holding the raw data.
+            df (pd.DataFrame): A data frame holding the raw data.
 
         Returns:
-            date: end date.
+            date: The end date on the account statement.
         """
         ...

@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from costly.statements.reader import IStatementReader
+from costly.statements.reader import IStatementReader, KBCStatementReader
 from datetime import date
 from pathlib import Path
 from typing import Optional, Union
@@ -25,7 +25,7 @@ class AccountStatement:
             cls,
             path: Union[str, Path],
             statement_reader: IStatementReader):
-        data = statement_reader.from_csv(path)
+        data = statement_reader.read_csv(path)
         return cls(
             account=data["account"],
             name=data["name"],

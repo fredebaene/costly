@@ -79,7 +79,10 @@ class IStatementReader(Protocol):
         ...
 
 
-class KBCStatementReader:    
+class KBCStatementReader:
+    def __init__(self):
+        data = {}
+    
     def read_csv(self, path: Union[str, Path]) -> dict:
         """
         This method reads and parses the data from a comma-separated values 
@@ -101,17 +104,14 @@ class KBCStatementReader:
         data["data"] = self._clean_raw_data(df)
         return data
     
-    @staticmethod
-    def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
+    def _clean_raw_data(self, df: pd.DataFrame) -> None:
         """
         This method cleans the raw data. This comprises renaming the fields 
-        and dropping redundant fields.
+        and dropping redundant fields. The clean data is added to the instance 
+        attribute `data`, which is a dict, with the key `data`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            pd.DataFrame: A data frame with clean data.
         """
         col_names = {
             "Munt": "currency",
@@ -128,58 +128,52 @@ class KBCStatementReader:
             "gestructureerde mededeling": "structured_reference",
             "Vrije mededeling": "unstructured_reference",
         }
-        return df.rename(columns=col_names)[[*list(col_names.values())]]
+        self.data["data"] = (
+            df
+            .rename(columns=col_names)
+            [[*list(col_names.values())]]
+        )
     
-    @staticmethod
-    def _parse_account(df: pd.DataFrame) -> str:
+    def _parse_account(self, df: pd.DataFrame) -> None:
         """
-        This method parses the account number of the account holder.
+        This method parses the account number of the account holder. The 
+        account number is added to the instance attribute `data`, which is a 
+        dict, with the key `account`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            str: The account number of the account holder.
         """
-        return df["Rekeningnummer"].drop_duplicates().iloc[0]
+        self.data["account"] = df["Rekeningnummer"].drop_duplicates().iloc[0]
     
-    @staticmethod
-    def _parse_name(df: pd.DataFrame) -> str:
+    def _parse_name(self, df: pd.DataFrame) -> None:
         """
-        This method parses the name of the account holder.
+        This method parses the name of the account holder. The name is added 
+        to the instance attribute `data`, which is a dict, with the key 
+        `name`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            str: The name of the account holder.
         """
-        return df["Naam"].drop_duplicates().iloc[0]
+        self.data["name"] = df["Naam"].drop_duplicates().iloc[0]
     
-    @staticmethod
-    def _parse_start_date(df: pd.DataFrame) -> date:
+    def _parse_start_date(self, df: pd.DataFrame) -> None:
         """
         This method parses the start date (earliest date) of the account 
-        statement.
+        statement. The start data is added to the instance attribute `data`, 
+        which is a dict, with the key `start_date`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            date: The start date on the account statement.
         """
-        return df["Datum"].min()
+        self.data["start_date"] df["Datum"].min()
     
-    @staticmethod
-    def _parse_end_date(df: pd.DataFrame) -> date:
+    def _parse_end_date(self, df: pd.DataFrame) -> None:
         """
         This method parses the end date (most recent date) of the account 
-        statement.
+        statement. The end data is added to the instance attribute `data`, 
+        which is a dict, with the key `end_date`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            date: The end date on the account statement.
         """
-        return df["Datum"].max()
+        self.data["end_date"] = df["Datum"].max()

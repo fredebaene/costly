@@ -80,8 +80,8 @@ class IStatementReader(Protocol):
 
 
 class KBCStatementReader:
-    def __init__(self):
-        data = {}
+    def __init__(self) -> None:
+        self.data = {}
     
     def read_csv(self, path: Union[str, Path]) -> dict:
         """
@@ -164,7 +164,7 @@ class KBCStatementReader:
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
         """
-        self.data["start_date"] df["Datum"].min()
+        self.data["start_date"] = df["Datum"].min()
     
     def _parse_end_date(self, df: pd.DataFrame) -> None:
         """

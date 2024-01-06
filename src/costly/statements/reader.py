@@ -8,16 +8,8 @@ import pandas as pd
 
 @runtime_checkable
 class IStatementReader(Protocol):
-    """
-    An interface for a statement reader. The `.read_csv()` method must return 
-    a dict holding the required items:
+    data: dict
 
-    - account: bank account of the account holder
-    - name: name of the account holder
-    - start_date: start date of the account statement
-    - end_date: end date of the account statement
-    - data: the clean data.
-    """
     def read_csv(self, path: Union[str, Path]) -> dict:
         """
         This method reads and parses the data from a comma-separated values 
@@ -31,71 +23,58 @@ class IStatementReader(Protocol):
         """
         ...
     
-    @staticmethod
-    def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
+    def _clean_raw_data(self, df: pd.DataFrame) -> None:
         """
         This method cleans the raw data. This comprises renaming the fields 
-        and dropping redundant fields.
+        and dropping redundant fields. The clean data is added to the instance 
+        attribute `data`, which is a dict, with the key `data`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            pd.DataFrame: A data frame with clean data.
         """
         ...
     
-    @staticmethod
-    def _parse_account(df: pd.DataFrame) -> str:
+    def _parse_account(self, df: pd.DataFrame) -> None:
         """
-        This method parses the account number of the account holder.
+        This method parses the account number of the account holder. The 
+        account number is added to the instance attribute `data`, which is a 
+        dict, with the key `account`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            str: The account number of the account holder.
         """
         ...
     
-    @staticmethod
-    def _parse_name(df: pd.DataFrame) -> str:
+    def _parse_name(self, df: pd.DataFrame) -> None:
         """
-        This method parses the name of the account holder.
+        This method parses the name of the account holder. The name is added 
+        to the instance attribute `data`, which is a dict, with the key 
+        `name`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            str: The name of the account holder.
         """
         ...
     
-    @staticmethod
-    def _parse_start_date(df: pd.DataFrame) -> date:
+    def _parse_start_date(self, df: pd.DataFrame) -> None:
         """
         This method parses the start date (earliest date) of the account 
-        statement.
+        statement. The start data is added to the instance attribute `data`, 
+        which is a dict, with the key `start_data`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            date: The start date on the account statement.
         """
         ...
     
-    @staticmethod
-    def _parse_end_date(df: pd.DataFrame) -> date:
+    def _parse_end_date(self, df: pd.DataFrame) -> None:
         """
         This method parses the end date (most recent date) of the account 
-        statement.
+        statement. The end data is added to the instance attribute `data`, 
+        which is a dict, with the key `end_date`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.
-
-        Returns:
-            date: The end date on the account statement.
         """
         ...
 

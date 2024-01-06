@@ -60,7 +60,7 @@ class IStatementReader(Protocol):
         """
         This method parses the start date (earliest date) of the account 
         statement. The start data is added to the instance attribute `data`, 
-        which is a dict, with the key `start_data`.
+        which is a dict, with the key `start_date`.
 
         Args:
             df (pd.DataFrame): A data frame holding the raw data.

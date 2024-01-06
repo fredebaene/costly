@@ -96,13 +96,12 @@ class KBCStatementReader:
         """
         path = Path(path) if isinstance(path, str) else path
         df = pd.read_csv(path, sep=";")
-        data = {}
-        data["account"] = self._parse_account(df)
-        data["name"] = self._parse_name(df)
-        data["start_date"] = self._parse_start_date(df)
-        data["end_date"] = self._parse_end_date(df)
-        data["data"] = self._clean_raw_data(df)
-        return data
+        self._parse_account(df)
+        self._parse_name(df)
+        self._parse_start_date(df)
+        self._parse_end_date(df)
+        self._clean_raw_data(df)
+        return self.data
     
     def _clean_raw_data(self, df: pd.DataFrame) -> None:
         """

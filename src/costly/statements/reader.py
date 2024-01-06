@@ -31,6 +31,7 @@ class IStatementReader(Protocol):
         """
         ...
     
+    @staticmethod
     def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
         """
         This method cleans the raw data. This comprises renaming the fields 
@@ -44,6 +45,7 @@ class IStatementReader(Protocol):
         """
         ...
     
+    @staticmethod
     def _parse_account(df: pd.DataFrame) -> str:
         """
         This method parses the account number of the account holder.
@@ -56,6 +58,7 @@ class IStatementReader(Protocol):
         """
         ...
     
+    @staticmethod
     def _parse_name(df: pd.DataFrame) -> str:
         """
         This method parses the name of the account holder.
@@ -68,6 +71,7 @@ class IStatementReader(Protocol):
         """
         ...
     
+    @staticmethod
     def _parse_start_date(df: pd.DataFrame) -> date:
         """
         This method parses the start date (earliest date) of the account 
@@ -81,6 +85,7 @@ class IStatementReader(Protocol):
         """
         ...
     
+    @staticmethod
     def _parse_end_date(df: pd.DataFrame) -> date:
         """
         This method parses the end date (most recent date) of the account 
@@ -114,9 +119,10 @@ class KBCStatementReader:
         data["name"] = self._parse_name(df)
         data["start_date"] = self._parse_start_date(df)
         data["end_date"] = self._parse_end_date(df)
-        data["dict"] = self._clean_raw_data(df)
+        data["data"] = self._clean_raw_data(df)
         return data
     
+    @staticmethod
     def _clean_raw_data(df: pd.DataFrame) -> pd.DataFrame:
         """
         This method cleans the raw data. This comprises renaming the fields 
@@ -145,6 +151,7 @@ class KBCStatementReader:
         }
         return df.rename(columns=col_names)[[*list(col_names.values())]]
     
+    @staticmethod
     def _parse_account(df: pd.DataFrame) -> str:
         """
         This method parses the account number of the account holder.
@@ -157,6 +164,7 @@ class KBCStatementReader:
         """
         return df["Rekeningnummer"].drop_duplicates().iloc[0]
     
+    @staticmethod
     def _parse_name(df: pd.DataFrame) -> str:
         """
         This method parses the name of the account holder.
@@ -169,6 +177,7 @@ class KBCStatementReader:
         """
         return df["Naam"].drop_duplicates().iloc[0]
     
+    @staticmethod
     def _parse_start_date(df: pd.DataFrame) -> date:
         """
         This method parses the start date (earliest date) of the account 
@@ -182,6 +191,7 @@ class KBCStatementReader:
         """
         return df["Datum"].min()
     
+    @staticmethod
     def _parse_end_date(df: pd.DataFrame) -> date:
         """
         This method parses the end date (most recent date) of the account 

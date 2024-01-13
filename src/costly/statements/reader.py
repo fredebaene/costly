@@ -1,7 +1,11 @@
-from abc import abstractmethod
-from datetime import date
+"""
+This module implements an interface for a statement reader. The interface 
+defines the methods that concrete classes must implement.
+"""
+
+
 from pathlib import Path
-from typing import Protocol, Tuple, Union
+from typing import Protocol, Union
 from typing import runtime_checkable
 import pandas as pd
 

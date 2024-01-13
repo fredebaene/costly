@@ -141,8 +141,7 @@ class KBCStatementReader:
 
         for field in ["credit", "debit"]:
             self.data["data"][field] = pd.to_numeric(
-                self.data["data"][field].str.replace(",", "."),
-                errors="coerce",
+                self.data["data"][field].str.replace(",", "."), errors="coerce"
             ).round(2)
     
     def _parse_account(self, df: pd.DataFrame) -> None:

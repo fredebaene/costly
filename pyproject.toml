@@ -17,4 +17,4 @@ dev = [
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "congol.__version__"}
+version = {attr = "costly.__version__"}

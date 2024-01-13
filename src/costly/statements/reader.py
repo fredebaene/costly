@@ -1,5 +1,5 @@
 """
-This module implements an interface for a statement reader. The interface 
+This module defines an interface for a statement reader. The interface 
 defines the methods that concrete classes must implement.
 """
 

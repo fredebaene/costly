@@ -99,7 +99,7 @@ class KBCStatementReader:
             dict: A dictionary containing the required items.
         """
         path = Path(path) if isinstance(path, str) else path
-        df = pd.read_csv(path, sep=";")
+        df = pd.read_csv(path, sep=";", decimal=",")
         self._parse_account(df)
         self._parse_name(df)
         self._parse_start_date(df)
@@ -138,6 +138,14 @@ class KBCStatementReader:
             .rename(columns=col_names)
             [[*list(col_names.values())]]
         )
+        self.data["data"]["credit"] = pd.to_numeric(
+            self.data["data"]["credit"].str.replace(",", "."),
+            errors="coerce",
+        ).round(2)
+        self.data["data"]["debit"] = pd.to_numeric(
+            self.data["data"]["debit"].str.replace(",", "."),
+            errors="coerce",
+        ).round(2)
     
     def _parse_account(self, df: pd.DataFrame) -> None:
         """

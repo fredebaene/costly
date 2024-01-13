@@ -116,7 +116,7 @@ class KBCStatementReader:
             "Munt": "currency",
             "Afschriftnummer": "copy_number",
             "Datum": "date",
-            "Omschrijving": "Description",
+            "Omschrijving": "description",
             "Valuta": "value_date",
             "Bedrag": "amouunt",
             "Saldo": "balance",

@@ -118,7 +118,7 @@ class KBCStatementReader:
             "Datum": "date",
             "Omschrijving": "description",
             "Valuta": "value_date",
-            "Bedrag": "amouunt",
+            "Bedrag": "amount",
             "Saldo": "balance",
             "rekeningnummer tegenpartij": "account_opposite",
             "BIC tegenpartij": "bic_opposite",
